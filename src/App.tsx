@@ -1,12 +1,11 @@
 import {
-  InformationCircleIcon,
   ChartBarIcon,
-  SunIcon,
+  InformationCircleIcon,
   MoonIcon,
-  CakeIcon,
-  AcademicCapIcon,
+  SunIcon,
 } from '@heroicons/react/outline'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import './App.css'
 import { Alert } from './components/alerts/Alert'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
@@ -14,34 +13,26 @@ import { AboutModal } from './components/modals/AboutModal'
 import { InfoModal } from './components/modals/InfoModal'
 import { StatsModal } from './components/modals/StatsModal'
 import {
-  GAME_TITLE,
-  WIN_MESSAGES,
-  GAME_COPIED_MESSAGE,
-  ABOUT_GAME_MESSAGE,
-  NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
-} from './constants/strings'
-import {
-  MAX_WORD_LENGTH,
-  MAX_CHALLENGES,
   ALERT_TIME_MS,
-  REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
+  MAX_CHALLENGES,
+  MAX_WORD_LENGTH,
+  REVEAL_TIME_MS,
 } from './constants/settings'
 import {
-  isWordInWordList,
-  isWinningWord,
-  solution,
-  findFirstUnusedReveal,
-} from './lib/words'
-import { addStatsForCompletedGame, loadStats } from './lib/stats'
+  CORRECT_WORD_MESSAGE,
+  GAME_COPIED_MESSAGE,
+  GAME_TITLE,
+  NOT_ENOUGH_LETTERS_MESSAGE,
+  WIN_MESSAGES,
+  WORD_NOT_FOUND_MESSAGE,
+} from './constants/strings'
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
 } from './lib/localStorage'
-
-import './App.css'
+import { addStatsForCompletedGame, loadStats } from './lib/stats'
+import { isWinningWord, isWordInWordList, solution } from './lib/words'
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -82,15 +73,15 @@ function App() {
 
   const [stats, setStats] = useState(() => loadStats())
 
-  const [isHardMode, setIsHardMode] = useState(
-    localStorage.getItem('gameMode')
-      ? localStorage.getItem('gameMode') === 'hard'
-      : false
-  )
+  // const [isHardMode, setIsHardMode] = useState(
+  //   localStorage.getItem('gameMode')
+  //     ? localStorage.getItem('gameMode') === 'hard'
+  //     : false
+  // )
 
-  const [isMissingPreviousLetters, setIsMissingPreviousLetters] =
-    useState(false)
-  const [missingLetterMessage, setIsMissingLetterMessage] = useState('')
+  // const [isMissingPreviousLetters, setIsMissingPreviousLetters] =
+  //   useState(false)
+  // const [missingLetterMessage, setIsMissingLetterMessage] = useState('')
 
   useEffect(() => {
     if (isDarkMode) {
@@ -105,10 +96,10 @@ function App() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }
 
-  const handleHardMode = (isHard: boolean) => {
-    setIsHardMode(isHard)
-    localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
-  }
+  // const _handleHardMode = (isHard: boolean) => {
+  //   setIsHardMode(isHard)
+  //   localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
+  // }
 
   useEffect(() => {
     saveGameStateToLocalStorage({ guesses, solution })
@@ -167,16 +158,16 @@ function App() {
     }
 
     // enforce hard mode - all guesses must contain all previously revealed letters
-    if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses)
-      if (firstMissingReveal) {
-        setIsMissingLetterMessage(firstMissingReveal)
-        setIsMissingPreviousLetters(true)
-        return setTimeout(() => {
-          setIsMissingPreviousLetters(false)
-        }, ALERT_TIME_MS)
-      }
-    }
+    // if (isHardMode) {
+    //   const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses)
+    //   if (firstMissingReveal) {
+    //     setIsMissingLetterMessage(firstMissingReveal)
+    //     setIsMissingPreviousLetters(true)
+    //     return setTimeout(() => {
+    //       setIsMissingPreviousLetters(false)
+    //     }, ALERT_TIME_MS)
+    //   }
+    // }
 
     setIsRevealing(true)
     // turn this back off after all
@@ -213,7 +204,7 @@ function App() {
         <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
           {GAME_TITLE}
         </h1>
-        {isHardMode ? (
+        {/* {isHardMode ? (
           <AcademicCapIcon
             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
             onClick={() => handleHardMode(!isHardMode)}
@@ -223,7 +214,7 @@ function App() {
             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
             onClick={() => handleHardMode(!isHardMode)}
           />
-        )}
+        )} */}
         {isDarkMode ? (
           <SunIcon
             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
@@ -271,27 +262,27 @@ function App() {
           setSuccessAlert(GAME_COPIED_MESSAGE)
           return setTimeout(() => setSuccessAlert(''), ALERT_TIME_MS)
         }}
-        isHardMode={isHardMode}
+        isHardMode={false}
       />
       <AboutModal
         isOpen={isAboutModalOpen}
         handleClose={() => setIsAboutModalOpen(false)}
       />
 
-      <button
+      {/* <button
         type="button"
         className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
         onClick={() => setIsAboutModalOpen(true)}
       >
         {ABOUT_GAME_MESSAGE}
-      </button>
+      </button> */}
 
       <Alert message={NOT_ENOUGH_LETTERS_MESSAGE} isOpen={isNotEnoughLetters} />
       <Alert
         message={WORD_NOT_FOUND_MESSAGE}
         isOpen={isWordNotFoundAlertOpen}
       />
-      <Alert message={missingLetterMessage} isOpen={isMissingPreviousLetters} />
+      {/* <Alert message={missingLetterMessage} isOpen={isMissingPreviousLetters} /> */}
       <Alert
         message={CORRECT_WORD_MESSAGE(solution)}
         isOpen={isGameLost && !isRevealing}
