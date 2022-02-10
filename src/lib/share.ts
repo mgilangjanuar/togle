@@ -9,7 +9,7 @@ export const shareStatus = (
 ) => {
   navigator.clipboard.writeText(
     `${GAME_TITLE} ${solutionIndex + 1} ${lost ? 'X' : guesses.length}/6${isHardMode ? '*' : ''
-    }\n\n` + generateEmojiGrid(guesses)
+    }\n\n` + generateEmojiGrid(guesses) + '\n\ntogle.vercel.app'
   )
 }
 

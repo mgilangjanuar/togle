@@ -62,7 +62,7 @@ export const Keyboard = ({
             isRevealing={isRevealing}
           />
         ))} */}
-        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '9', '0'].map((key) => (
+        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].map((key) => (
           <Key
             value={key}
             key={key}
